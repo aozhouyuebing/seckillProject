@@ -43,13 +43,27 @@
         </javaClientGenerator>
 
         <!--6. 我要生成的表  可以一次性生成多张表 tableName是表名   domainObjectName是实体名 -->
-        <table tableName="user_info" domainObjectName="UserDo"
-               enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"
-               enableUpdateByExample="false"/>
-        <table tableName="user_password" domainObjectName="UserPasswprdDo"
+<!--        <table tableName="user_info" domainObjectName="UserDo"-->
+<!--               enableCountByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"-->
+<!--               enableUpdateByExample="false"/>-->
+
+<!--        <table tableName="user_password" domainObjectName="UserPasswprdDo"-->
+<!--               enableCountByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"-->
+<!--               enableUpdateByExample="false"/>-->
+
+<!--        <table tableName="item" domainObjectName="ItemDo"-->
+<!--               enableCountByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"-->
+<!--               enableUpdateByExample="false"/>-->
+        <table tableName="item_stock" domainObjectName="ItemStockDo"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"

@@ -19,7 +19,7 @@
     from user_info
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="selectByTelphone"  resultMap="BaseResultMap">
+  <select id="selectByTelphone" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from user_info
@@ -37,7 +37,7 @@
       #{age,jdbcType=INTEGER}, #{telphone,jdbcType=VARCHAR}, #{registerMode,jdbcType=VARCHAR}, 
       #{thirdPartyId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="top.greatxiaozou.dataobject.UserDo" keyProperty="id" useGeneratedKeys="true">
+  <insert id="insertSelective" keyProperty="id" parameterType="top.greatxiaozou.dataobject.UserDo" useGeneratedKeys="true">
     insert into user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

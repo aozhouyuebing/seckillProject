@@ -78,9 +78,9 @@
           </executions>
           <configuration>
             <!--            允许移动生成文件-->
-            <verbos>true</verbos>
+            <verbose>true</verbose>
             <!--            允许自动覆盖文件-->
-            <overwrite>true</overwrite>
+            <overwrite>false</overwrite>
             <configurationFile>
               src/main/resources/mybatis-generator.xml
             </configurationFile>
