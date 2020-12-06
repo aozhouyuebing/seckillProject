@@ -11,6 +11,8 @@ import top.greatxiaozou.service.ItemService;
 import top.greatxiaozou.service.model.ItemModel;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/item")
@@ -37,10 +39,39 @@ public class ItemController extends BaseController  {
 
         ItemModel item = itemService.createItem(itemModel);
         ItemVO itemVO = convertVOFromModel(item);
+//        System.out.println(itemVO);
 
         return CommonReturnType.create(itemVO);
 
     }
+
+    //商品详情页浏览
+    @RequestMapping(value = "/get",method = {RequestMethod.GET})
+    @ResponseBody
+    public CommonReturnType getItem(@RequestParam(name = "id")Integer id){
+        ItemModel itemModel = itemService.getItemById(id);
+
+        ItemVO itemVO = convertVOFromModel(itemModel);
+        return CommonReturnType.create(itemVO);
+    }
+
+    //商品列表页浏览
+    @RequestMapping(value = "/list",method = {RequestMethod.GET})
+    @ResponseBody
+    public CommonReturnType listItem(){
+        List<ItemModel> itemModelList = itemService.listItem();
+
+        //使用steam api将list内的itemModel转化为vo
+        List<ItemVO> vos = itemModelList.stream().map(itemModel -> {
+            ItemVO itemVO = convertVOFromModel(itemModel);
+            return itemVO;
+        }).collect(Collectors.toList());
+
+        return CommonReturnType.create(vos);
+    }
+
+
+    //================convert方法==================//
 
     private ItemVO convertVOFromModel(ItemModel itemModel){
         if (itemModel == null){

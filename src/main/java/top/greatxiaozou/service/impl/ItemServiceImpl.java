@@ -3,11 +3,14 @@ package top.greatxiaozou.service.impl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import top.greatxiaozou.dao.ItemDoMapper;
 import top.greatxiaozou.dao.ItemStockDoMapper;
+import top.greatxiaozou.dao.SequenceDoMapper;
 import top.greatxiaozou.dataobject.ItemDo;
 import top.greatxiaozou.dataobject.ItemStockDo;
+import top.greatxiaozou.dataobject.SequenceDo;
 import top.greatxiaozou.error.BusinessException;
 import top.greatxiaozou.error.EmBusinessError;
 import top.greatxiaozou.service.ItemService;
@@ -16,7 +19,10 @@ import top.greatxiaozou.validator.ValidationResult;
 import top.greatxiaozou.validator.ValidatorImpl;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -29,6 +35,9 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ItemStockDoMapper itemStockDoMapper;
 
+    @Autowired
+    private SequenceDoMapper sequenceDoMapper;
+
     @Override
     @Transactional
     public ItemModel createItem(ItemModel itemModel) throws BusinessException {
@@ -40,6 +49,7 @@ public class ItemServiceImpl implements ItemService {
 
         //转化--->dataobject
         ItemDo itemDo = convertItemDoFromModel(itemModel);
+
         itemDoMapper.insertSelective(itemDo);
 
         itemModel.setId(itemDo.getId());
@@ -53,12 +63,21 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemModel> listItem() {
-        return null;
+        List<ItemDo> itemDos = itemDoMapper.listItem();
+        List<ItemModel> list = itemDos.stream().map(itemDo -> {
+            ItemStockDo itemStockDo = itemStockDoMapper.selectByItemId(itemDo.getId());
+            ItemModel itemModel = convertItemModelFromDo(itemDo, itemStockDo);
+
+            return itemModel;
+        }).collect(Collectors.toList());
+        return list;
     }
 
     @Override
     public ItemModel getItemById(Integer id) {
         ItemDo itemDo = itemDoMapper.selectByPrimaryKey(id);
+//        System.out.println(itemDo);
+
         if (itemDo == null){
             return null;
         }
@@ -72,7 +91,28 @@ public class ItemServiceImpl implements ItemService {
         return itemModel;
     }
 
+    //减库存的方法
+    @Override
+    @Transactional
+    public boolean decreaseStock(Integer itemId, Integer amount) throws BusinessException {
+        int affectedRow = itemStockDoMapper.decreaseStock(itemId, amount);
+        if (affectedRow > 0){
+            //更新库存成功
+            return true;
+        }else {
+            //更新库存失败
+            return false;
+        }
+                
+    }
 
+    @Override
+    @Transactional
+    public void increaseSales(Integer itemId, Integer amount) throws BusinessException {
+        itemDoMapper.increaseSales(itemId,amount);
+    }
+
+    //========================convert方法======================//
     //将model对象转化为itemdo对象
     public ItemDo convertItemDoFromModel(ItemModel itemModel){
         if (itemModel==null) return null;
@@ -102,8 +142,11 @@ public class ItemServiceImpl implements ItemService {
         ItemModel itemModel = new ItemModel();
         BeanUtils.copyProperties(itemDo,itemModel);
         itemModel.setPrice(new BigDecimal(itemDo.getPrice()));
-        BeanUtils.copyProperties(itemStockDo,itemModel);
-
+        itemModel.setStock(itemStockDo.getStock());
         return itemModel;
     }
+
+    //==========生成订单号方法===========//
+
+
 }

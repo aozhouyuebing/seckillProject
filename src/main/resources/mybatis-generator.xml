@@ -63,12 +63,32 @@
 <!--               enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"-->
 <!--               enableUpdateByExample="false"/>-->
-        <table tableName="item_stock" domainObjectName="ItemStockDo"
+<!--        <table tableName="item_stock" domainObjectName="ItemStockDo"-->
+<!--               enableCountByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"-->
+<!--               enableUpdateByExample="false"/>-->
+
+<!--        <table tableName="order_info" domainObjectName="OrderDo"-->
+<!--               enableCountByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"-->
+<!--               enableUpdateByExample="false"/>-->
+<!--        <table tableName="sequence_info" domainObjectName="SequenceDo"-->
+<!--               enableCountByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"-->
+<!--               enableUpdateByExample="false"/>-->
+        <table tableName="promo" domainObjectName="PromoDo"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                selectByExampleQueryId="false"
                enableUpdateByExample="false"/>
+
 
     </context>
 </generatorConfiguration>
