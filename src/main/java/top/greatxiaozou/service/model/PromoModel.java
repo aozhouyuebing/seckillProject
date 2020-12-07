@@ -19,10 +19,16 @@ public class PromoModel {
 
     //秒杀活动开始时间
     private DateTime startDate;
+    //秒杀活动结束时间
+    private DateTime endDate;
 
     //秒杀活动的适用商品
     private Integer itemId;
 
     //秒杀活动的商品价格
     private BigDecimal promoItemPrice;
+
+    //秒杀活动状态 1表示未开始，2表示进行中，3表示已结束
+    private Integer status;
+
 }

@@ -16,21 +16,21 @@ public class BaseController {
 
 
 //    //定义exceptionhandler解决未被controller层吸收的exception
-//    @ExceptionHandler(Exception.class)
-//    @ResponseStatus(HttpStatus.OK)
-//    @ResponseBody
-//    public CommonReturnType handlerExcpetion(HttpServletRequest request, Exception e){
-//        Map<String,Object> map = new HashMap<>();
-//        if (e instanceof BusinessException){
-//            BusinessException be = (BusinessException)e;
-//            //将异常数据放入map
-//            map.put("errCode",be.getErrCode());
-//            map.put("errMsg",be.getErrMsg());
-//        }else {
-//            map.put("errCode", EmBusinessError.UNKONW_ERROR.getErrCode());
-//            map.put("errCode",EmBusinessError.UNKONW_ERROR.getErrMsg());
-//        }
-//        //将map放入通用返回对象
-//        return CommonReturnType.create(map,"fail");
-//    }
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public CommonReturnType handlerExcpetion(HttpServletRequest request, Exception e){
+        Map<String,Object> map = new HashMap<>();
+        if (e instanceof BusinessException){
+            BusinessException be = (BusinessException)e;
+            //将异常数据放入map
+            map.put("errCode",be.getErrCode());
+            map.put("errMsg",be.getErrMsg());
+        }else {
+            map.put("errCode", EmBusinessError.UNKONW_ERROR.getErrCode());
+            map.put("errCode",EmBusinessError.UNKONW_ERROR.getErrMsg());
+        }
+        //将map放入通用返回对象
+        return CommonReturnType.create(map,"fail");
+    }
 }

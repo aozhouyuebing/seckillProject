@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import top.greatxiaozou.dao.ItemDoMapper;
 import top.greatxiaozou.dao.ItemStockDoMapper;
+import top.greatxiaozou.dao.PromoDoMapper;
 import top.greatxiaozou.dao.SequenceDoMapper;
 import top.greatxiaozou.dataobject.ItemDo;
 import top.greatxiaozou.dataobject.ItemStockDo;
@@ -14,7 +15,9 @@ import top.greatxiaozou.dataobject.SequenceDo;
 import top.greatxiaozou.error.BusinessException;
 import top.greatxiaozou.error.EmBusinessError;
 import top.greatxiaozou.service.ItemService;
+import top.greatxiaozou.service.PromoService;
 import top.greatxiaozou.service.model.ItemModel;
+import top.greatxiaozou.service.model.PromoModel;
 import top.greatxiaozou.validator.ValidationResult;
 import top.greatxiaozou.validator.ValidatorImpl;
 
@@ -36,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
     private ItemStockDoMapper itemStockDoMapper;
 
     @Autowired
-    private SequenceDoMapper sequenceDoMapper;
+    private PromoService promoService;
 
     @Override
     @Transactional
@@ -85,8 +88,18 @@ public class ItemServiceImpl implements ItemService {
         ItemStockDo itemStockDo = itemStockDoMapper.selectByItemId(itemDo.getId());
 
         //dataObject --->model
-
         ItemModel itemModel = convertItemModelFromDo(itemDo,itemStockDo);
+
+        //获取活动商品信息
+        PromoModel promoModel = promoService.getPromoByItemId(itemModel.getId());
+        System.out.println(promoModel);
+
+        //将活动聚合到itemModel中
+        if (promoModel != null && promoModel.getStatus().intValue() != 3){
+            itemModel.setPromoModel(promoModel);
+        }
+
+
 
         return itemModel;
     }

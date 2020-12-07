@@ -21,12 +21,15 @@ public class OrderModel {
     //下单的物品id
     private Integer itemId;
 
-    //购买商品单价
+    //若非空，则表示是以秒杀商品方式下单
+    private Integer promoId;
+
+    //购买商品单价,若promoId非空，则表示m秒杀商品价格
     private BigDecimal price;
 
     //购买的数量
     private Integer amount;
 
-    //购买的金额
+    //购买的金额，若promoId非空，则表示m秒杀商品价格
     private BigDecimal orderPrice;
 }

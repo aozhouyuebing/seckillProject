@@ -1,7 +1,9 @@
 package top.greatxiaozou.dao;
 
+import org.springframework.stereotype.Repository;
 import top.greatxiaozou.dataobject.PromoDo;
 
+@Repository
 public interface PromoDoMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -10,6 +12,8 @@ public interface PromoDoMapper {
     int insertSelective(PromoDo record);
 
     PromoDo selectByPrimaryKey(Integer id);
+
+    PromoDo selectByItemId(Integer itemId);
 
     int updateByPrimaryKeySelective(PromoDo record);
 
